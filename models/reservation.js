@@ -10,6 +10,6 @@ const reservationSchema = mongoose.Schema({
  //usertenant: { type: Schema.Types.name, ref: 'usertenant' } 
 });
 
-const Reservation = mongoose.model('reservation', reservationSchema);
+const Reservation = mongoose.model('reservations', reservationSchema);
 
 module.exports = Reservation;

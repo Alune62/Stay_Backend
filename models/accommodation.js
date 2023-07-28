@@ -10,6 +10,6 @@ const accommodationSchema = mongoose.Schema({
  distribution: String,
 });
 
-const Accommodation = mongoose.model('accommodation', accommodationSchema);
+const Accommodation = mongoose.model('accommodations', accommodationSchema);
 
 module.exports = Accommodation;
