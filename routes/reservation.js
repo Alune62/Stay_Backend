@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const Reservation = require('../models/reservation');
+const Reservation = require('../models/reservations');
 
 router.post('/reservation', function(req, res) {
 
