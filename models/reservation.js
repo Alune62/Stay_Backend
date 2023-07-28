@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('../models/connection');
+
 
 const reservationSchema = mongoose.Schema({
  arrival: Date,

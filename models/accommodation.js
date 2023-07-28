@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-require('./connection');
+
 
 const accommodationSchema = mongoose.Schema({
  name: String,
