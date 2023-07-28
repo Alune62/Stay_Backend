@@ -3,7 +3,7 @@ require('./connection');
 
 const accommodationSchema = mongoose.Schema({
  name: String,
- picture: Image,
+ picture: String,
  address: String,
  description: String,
  price: Number,
