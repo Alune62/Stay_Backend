@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 const Reservation = require('../models/reservations');
 
-router.post('/reservation', function(req, res) {
+router.post('/', function(req, res) {
 
   const newReservation = new Reservation({
-    name: req.body.name,
-    picture: req.body.picture,
-    address: req.body.address ,
-    description: req.body.address ,
-    price: req.body.price ,
-    distribution: req.body.distribution ,
+    arrival: req.body.arrival,
+    departure: req.body.departure,
+    price: req.body.price,
+    status: req.body.status,
+    distribution: req.body.distribution,
+     user: req.body.user
    });
    newReservation.save()
    .then(data => {
@@ -20,7 +20,7 @@ router.post('/reservation', function(req, res) {
 });
 
 
-router.get('/reservation', function(req,res) {
+router.get('/', function(req,res) {
   Reservation.find({})
   .then(data=> {
      res.json({reservationList : data})
@@ -28,7 +28,7 @@ router.get('/reservation', function(req,res) {
 });
 
 
-router.delete('/reservation/:id',(req,res) => {
+router.delete('/:id',(req,res) => {
  
 Reservation.deleteOne({id: req.params.id})
 .then(data => {

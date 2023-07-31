@@ -53,12 +53,22 @@ router.post('/signin', (req, res) => {
     }
   });
 });
+// Récupérer tous les utilisateurs
+router.get('/', async (req, res) => {
+  try {
+      const users = await User.find({});  
+      res.json(users);  // Renvoyer les utilisateurs en tant que réponse JSON
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Erreur serveur');
+  }
+});
 
 // Route de recherche d'utilisateur
 router.get('/', (req, res) => {
-  User.find({ username : req.params.username}).then(data => {
+  User.find({ username: req.params.user }).then(data => {
     if (data) {
-      res.json({ result: true, users: data});
+      res.json({ result: true, users: data.username });
     } else {
       res.json({ result: false, error: 'Utilisateur non trouvé' });
     }
