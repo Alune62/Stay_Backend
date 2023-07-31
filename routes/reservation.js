@@ -37,7 +37,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route GET pour récupérer toutes les réservations
-router.get('/reservation', function(req, res) {
+router.get('/', function(req, res) {
   Reservation.find({})
     .then(data => {
       res.json({ reservationList: data });
@@ -47,6 +47,8 @@ router.get('/reservation', function(req, res) {
       res.status(500).json({ error: 'Une erreur s\'est produite lors de la récupération des réservations' });
     });
 });
+
+
 
 // Route DELETE pour supprimer une réservation par son ID
 router.delete('/:id', async (req, res) => {
@@ -58,5 +60,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send('Erreur serveur');
   }
 });
+
+
 
 module.exports = router;
