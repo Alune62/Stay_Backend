@@ -6,13 +6,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('./models/connection');
 
+var app = express();
+const cors = require('cors');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var reservationRouter = require('./routes/reservation');
 var accommodationRouter = require('./routes/accommodation');
 
-var app = express();
-const cors = require('cors');
+
 
 app.use(cors());
 app.use(logger('dev'));
