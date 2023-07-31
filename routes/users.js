@@ -56,9 +56,9 @@ router.post('/signin', (req, res) => {
 
 // Route de recherche d'utilisateur
 router.get('/', (req, res) => {
-  User.find({ username: req.params.user }).then(data => {
+  User.find({ username : req.params.username}).then(data => {
     if (data) {
-      res.json({ result: true, users: data.username });
+      res.json({ result: true, users: data});
     } else {
       res.json({ result: false, error: 'Utilisateur non trouvé' });
     }
