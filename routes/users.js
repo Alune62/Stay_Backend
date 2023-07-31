@@ -81,7 +81,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// Route de suppression d'utilisateur
+// Route de suppression d'utilisateur par id
 router.delete("/:id", (req, res) => {
   if (!checkBody(req.body, ["username"])) {
     res.json({ result: false, error: "Champs manquants ou vides" });

@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const Message = require('../models/messages');
-
+const User = require('../models/users');
 
 router.post('/', (req, res) => {
     const newMessage = new Message({
-        Text: req.body.Text,
+        text: req.body.text,
         username: req.body.username,
-        createdAt: req.body.createdAt,
+        createdAt: new Date(),
         accommodation: req.body.accommodation
     })
 
@@ -16,7 +16,6 @@ router.post('/', (req, res) => {
         res.json({result: true})
     })
 })
-
 
 // Route GET pour récupérer tous les messages
 router.get('/', async (req, res) => {
@@ -45,5 +44,17 @@ router.delete('/:id', async (req, res) => {
     }
   });
 
+  //delete tt les message d'un utlisateur by id
+  router.delete('/all/:id', async (req, res) => {
+    try {
+      // Supprime tous les messages où 'username' correspond à 'req.params.id'
+      await Message.deleteMany({ username: req.params.id });
+  
+      res.send('Les messages ont été supprimés avec succès.');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Erreur serveur');
+    }
+  });
 
 module.exports = router;

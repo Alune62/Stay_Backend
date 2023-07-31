@@ -13,7 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var reservationRouter = require('./routes/reservation');
 var accommodationRouter = require('./routes/accommodation');
-
+var messageRouter = require('./routes/messages');
 
 app.use(cors());
 app.use(logger('dev'));
@@ -26,5 +26,5 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/accommodation', accommodationRouter);
 app.use('/reservation', reservationRouter);
-
+app.use('/messages', messageRouter);
 module.exports = app;
