@@ -7,7 +7,7 @@ const reservationSchema = mongoose.Schema({
  price: Number,
  status: String,
  distribution: String,
- user: {}
+//  usertenant: { type: mongoose.Schema.Types.name, ref: 'usertenant' } 
 });
 
 const Reservation = mongoose.model('reservations', reservationSchema);

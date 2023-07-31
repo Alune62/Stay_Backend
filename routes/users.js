@@ -25,7 +25,13 @@ router.post('/signup', (req, res) => {
         password: hash,
         token: uid2(32),
         connectionMode: req.body.connectionMode,
-        role: req.body.role
+        role: req.body.role,
+        services: {
+          prestation: req.body.prestation,
+          company: req.body.company,
+          address: req.body.address,
+          position: req.body.position,
+    },
       });
 
       newUser.save().then(newDoc => {
@@ -65,11 +71,10 @@ router.get('/', async (req, res) => {
 });
 
 // Route de recherche d'utilisateur
-router.get('/:username', (req, res) => {
-  User.findOne({username: req.params.username }).then(data => {
+router.get('/', (req, res) => {
+  User.find({ username: req.params.user }).then(data => {
     if (data) {
-      console.log(data)
-      res.json({ result: true, users: data});
+      res.json({ result: true, users: data.username });
     } else {
       res.json({ result: false, error: 'Utilisateur non trouvé' });
     }
