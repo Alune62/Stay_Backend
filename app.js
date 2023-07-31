@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var reservationRouter = require('./routes/reservation');
 var accommodationRouter = require('./routes/accommodation');
 
+
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -25,4 +26,5 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/accommodation', accommodationRouter);
 app.use('/reservation', reservationRouter);
+
 module.exports = app;

@@ -25,7 +25,13 @@ router.post('/signup', (req, res) => {
         password: hash,
         token: uid2(32),
         connectionMode: req.body.connectionMode,
-        role: req.body.role
+        role: req.body.role,
+        services: {
+          prestation: req.body.prestation,
+          company: req.body.company,
+          address: req.body.address,
+          position: req.body.position,
+    },
       });
 
       newUser.save().then(newDoc => {
