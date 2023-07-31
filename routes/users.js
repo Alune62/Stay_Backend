@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/users');
 const uid2 = require('uid2');
-
+const { checkBody } = require('../modules/checkBody')
 router.post('/', (req, res) => {
   if(!checkBody(req.body, ["firstname", "lastname", "email", "password", "token", "connectionMode", "role"])){
     res.json({result: false, error: "Missing or empty fields"});
