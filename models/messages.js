@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const messageSchema = mongoose.Schema({
-Text: string,
-//Username: ObjectId ==> User
+text: String,
+username: { type: mongoose.Schema.Types.ObjectId, ref: 'username' },
 createdAt: Date,
-//Accommodation : ObjectId ==> accommodation
+accommodation: { type: mongoose.Schema.Types.ObjectId, ref: 'accomodation' }
 });
 
 const Message = mongoose.model('messages', messageSchema);
