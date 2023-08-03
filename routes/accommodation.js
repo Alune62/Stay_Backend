@@ -3,9 +3,9 @@ var router = express.Router();
 const Accommodation = require('../models/accommodations');
 const { checkBody } = require('../modules/checkBody')
 
-router.post('/', (req, res) => {
+router.post('/', (req, res) => {console.log(req.body);
   if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution"])){
-    res.json({result: false, error: "Missing or empty fields"});
+    res.json({result: false, error: "Missing or empty fields"});return;
 }
 const { name, picture, address, description, price, distribution } = req.body
 

@@ -7,7 +7,7 @@ const accommodationSchema = mongoose.Schema({
  address: String,
  description: String,
  price: Number,
- distribution: String,
+ distribution: [String],
 });
 
 const Accommodation = mongoose.model('accommodations', accommodationSchema);
