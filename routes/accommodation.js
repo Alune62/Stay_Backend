@@ -6,7 +6,7 @@ const { checkBody } = require('../modules/checkBody')
 router.post('/', (req, res) => {
   if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "owner"])){
     res.json({result: false, error: "Missing or empty fields"});
-    //return;
+    return;
 }
 const { name, picture, address, description, price, distribution, owner } = req.body
 console.log(req.body);
