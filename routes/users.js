@@ -5,9 +5,10 @@ const uid2 = require('uid2');
 const User = require('../models/users'); // Suppose que le modèle de données de l'utilisateur est défini dans le fichier 'user.js'
 const { checkBody } = require('../modules/checkBody'); // Suppose que la fonction checkBody est définie dans le fichier 'utils.js'
 
+//"connectionMode", "role"
 // Route d'inscription
 router.post('/signup', (req, res) => {
-  if (!checkBody(req.body, ["firstname", "lastname", "username", "email", "password", "connectionMode", "role"])) {
+  if (!checkBody(req.body, ["firstname", "lastname", "username", "email", "password", "role"])) {
     res.json({ result: false, error: "Champs manquants ou vides" });
     return;
   }
@@ -24,13 +25,13 @@ router.post('/signup', (req, res) => {
         email: req.body.email,
         password: hash,
         token: uid2(32),
-        connectionMode: req.body.connectionMode,
+        //connectionMode: req.body.connectionMode,
         role: req.body.role,
         services: {
-          prestation: req.body.prestation,
-          company: req.body.company,
-          address: req.body.address,
-          position: req.body.position,
+          prestation: req.body.services.prestation,
+          company: req.body.services.company,
+          address: req.body.services.address,
+          position: req.body.services.position,
     },
       });
 
@@ -81,7 +82,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// Route de suppression d'utilisateur
+// Route de suppression d'utilisateur par id
 router.delete("/:id", (req, res) => {
   if (!checkBody(req.body, ["username"])) {
     res.json({ result: false, error: "Champs manquants ou vides" });
