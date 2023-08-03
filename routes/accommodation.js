@@ -3,11 +3,11 @@ var router = express.Router();
 const Accommodation = require('../models/accommodations');
 const { checkBody } = require('../modules/checkBody')
 
-router.post('/', (req, res) => {console.log(req.body);
-  if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution"])){
-    res.json({result: false, error: "Missing or empty fields"});return;
+router.post('/', (req, res) => {
+  if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "owner"])){
+    res.json({result: false, error: "Missing or empty fields"});
 }
-const { name, picture, address, description, price, distribution } = req.body
+const { name, picture, address, description, price, distribution, owner } = req.body
 
   const newAccommodation = new Accommodation({
     name,
@@ -16,6 +16,7 @@ const { name, picture, address, description, price, distribution } = req.body
     description,
     price,
     distribution,
+    owner,
    });
 
    newAccommodation.save()
@@ -32,6 +33,19 @@ router.get('/', function(req, res) {
      res.json({result: true, accommodationList : data})
   })
 });
+
+router.get('/:owner', (req, res) => {
+  Accommodation.find({ owner: req.params.owner })
+  .then(data => {
+    if (data) {
+      res.json(data);
+    } else {
+      res.json({ result: false, error: 'User not found' });
+    }
+  });
+});
+
+
 
 
 router.delete("/:id", (req, res) =>{

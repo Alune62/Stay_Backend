@@ -7,7 +7,8 @@ const accommodationSchema = mongoose.Schema({
  address: String,
  description: String,
  price: Number,
- distribution: [String],
+ distribution: Array,
+ owner: { type: mongoose.Schema.Types.ObjectId, ref:'users' },
 });
 
 const Accommodation = mongoose.model('accommodations', accommodationSchema);
