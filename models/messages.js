@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const messageSchema = mongoose.Schema({
 text: String,
-username: { type: mongoose.Schema.Types.ObjectId, ref: 'username' },
+owner: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
+serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 createdAt: Date,
-accommodation: { type: mongoose.Schema.Types.ObjectId, ref: 'accomodation' }
+accommodation: { type: mongoose.Schema.Types.ObjectId, ref: 'accommodations' }
 });
 
 const Message = mongoose.model('messages', messageSchema);
