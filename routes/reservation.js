@@ -3,26 +3,22 @@ var router = express.Router();
 const Reservation = require('../models/reservations');
 
 // Route POST pour créer une nouvelle réservation
-router.post('/', function(req, res) {
-  const newReservation = new Reservation({
-    name: req.body.name,
-    picture: req.body.picture,
-    address: req.body.address,
-    description: req.body.description, // Correction du champ description
-    price: req.body.price,
-    distribution: req.body.distribution,
-    userTenant: req.body.userTenant // Correction du champ userTenant
-  });
-
-  newReservation.save()
-    .then(data => {
-      console.log(data);
-      res.json({ newReservation: data });
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ error: 'Une erreur s\'est produite lors de la sauvegarde de la réservation' });
+router.post('/', async (req, res) => {
+  try {
+    const newReservation = new Reservation({
+      arrival: req.body.arrival,
+      departure: req.body.departure,
+      price: req.body.price,
+      status: req.body.status,
+      distribution: req.body.distribution,
     });
+
+    const savedReservation = await newReservation.save();
+    res.json({ newReservation: savedReservation });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Une erreur s\'est produite lors de la sauvegarde de la réservation' });
+  }
 });
 
 // Route GET pour récupérer toutes les réservations d'un utilisateur
@@ -55,6 +51,32 @@ router.delete('/:id', async (req, res) => {
   try {
     const reservation = await Reservation.findByIdAndRemove(req.params.id);
     res.json({ result: true });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedReservation = await Reservation.findByIdAndUpdate(
+      req.params.id,
+      {
+         
+          arrival: req.body.arrival,
+          departure: req.body.departure,
+          price: req.body.price,
+          status: req.body.status,
+          distribution: req.body.distribution,
+      },
+      
+      { new: true } // Retourne le document mis à jour
+    );
+
+    if (!updatedReservation) {
+      return res.status(404).json({ error: 'La réservation n\'a pas été trouvée' });
+    }
+    res.json({ updatedReservation });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Erreur serveur');
