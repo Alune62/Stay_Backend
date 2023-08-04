@@ -6,8 +6,10 @@ const { checkBody } = require('../modules/checkBody')
 router.post('/', (req, res) => {
   if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "owner"])){
     res.json({result: false, error: "Missing or empty fields"});
+    return;
 }
 const { name, picture, address, description, price, distribution, owner } = req.body
+console.log(req.body);
 
   const newAccommodation = new Accommodation({
     name,
@@ -18,13 +20,43 @@ const { name, picture, address, description, price, distribution, owner } = req.
     distribution,
     owner,
    });
+   console.log(newAccommodation);
 
    newAccommodation.save()
    .then(data => {
-    console.log(data);
-    res.json({result: true, })
+     console.log(data);
+     res.json({result: true, });
+   })
+   .catch(error => {
+     console.error("Erreur lors de l'enregistrement de l'hébergement:", error);
+     res.status(500).json({result: false, error: "Une erreur est survenue lors de l'enregistrement de l'hébergement."});
    });
 });
+
+
+router.put('/update', function(req, res) {
+  if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "owner"])){
+    res.json({result: false, error: "Missing or empty fields"});
+  }
+  
+  const { name, picture, address, description, price, owner } = req.body
+  const updatedAccommodation = {
+    name,
+    picture,
+    address,
+    description,
+    price,
+    owner,
+   };
+
+   console.log(updatedAccommodation);
+
+   Accommodation.updateOne({ _id: req.body._id }, updatedAccommodation).then((data) => {
+    res.json({result: true, newAccommodations: data})
+	});
+});
+
+
 
 
 router.get('/', function(req, res) {
@@ -44,6 +76,10 @@ router.get('/:owner', (req, res) => {
     }
   });
 });
+
+
+
+
 
 
 
