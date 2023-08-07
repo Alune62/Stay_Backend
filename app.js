@@ -14,6 +14,7 @@ var usersRouter = require('./routes/users');
 var reservationRouter = require('./routes/reservation');
 var accommodationRouter = require('./routes/accommodation');
 var messageRouter = require('./routes/messages');
+var prestationRouter = require('./routes/prestations')
 
 app.use(cors());
 app.use(logger('dev'));
@@ -27,4 +28,5 @@ app.use('/users', usersRouter);
 app.use('/accommodation', accommodationRouter);
 app.use('/reservation', reservationRouter);
 app.use('/messages', messageRouter);
+app.use('/prestations', prestationRouter);
 module.exports = app;
