@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Accommodation = require('../models/accommodations');
+const User = require('../models/users');
 const { checkBody } = require('../modules/checkBody')
 
 router.post('/', (req, res) => {
@@ -66,15 +67,36 @@ router.get('/', function(req, res) {
   })
 });
 
-router.get('/:owner', (req, res) => {
-  Accommodation.find({ owner: req.params.owner })
-  .then(data => {
-    if (data) {
-      res.json(data);
+// router.get('/:owner', (req, res) => {
+//   Accommodation.find({ owner: req.params.owner })
+//   .then(data => {
+//     if (data) {
+//       res.json(data);
+//     } else {
+//       res.json({ result: false, error: 'User not found' });
+//     }
+//   });
+// });
+
+router.get('/:token', (req, res) => {
+  User.findOne({ token: req.params.token }).then(userData => {
+    if (!userData) {
+      res.json({ result: false, error: 'User not found in users' });
     } else {
-      res.json({ result: false, error: 'User not found' });
+      Accommodation.find({ owner: userData._id })
+      .then(accommodationData => {
+        if (accommodationData) {
+          res.json(accommodationData);
+        } else {
+          res.json({ result: false, error: 'User not found in accommodations' });
+        }
+      });
+      //res.json({ result: true, canBookmark: data.canBookmark });
     }
   });
+
+
+
 });
 
 
