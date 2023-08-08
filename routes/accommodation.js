@@ -4,34 +4,46 @@ const Accommodation = require('../models/accommodations');
 const User = require('../models/users');
 const { checkBody } = require('../modules/checkBody')
 
+
+
 router.post('/', (req, res) => {
-  if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "owner"])){
-    res.json({result: false, error: "Missing or empty fields"});
+  if(!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "ownerToken"])){
+    res.json({result: false, error: "Backend, CheckBody error : Missing or empty fields"});
     return;
-}
-const { name, picture, address, description, price, distribution, owner } = req.body
-console.log(req.body);
-
-  const newAccommodation = new Accommodation({
-    name,
-    picture,
-    address,
-    description,
-    price,
-    distribution,
-    owner,
-   });
-   console.log(newAccommodation);
-
-   newAccommodation.save()
-   .then(data => {
-     console.log(data);
-     res.json({result: true, });
-   })
-   .catch(error => {
-     console.error("Erreur lors de l'enregistrement de l'hébergement:", error);
-     res.status(500).json({result: false, error: "Une erreur est survenue lors de l'enregistrement de l'hébergement."});
-   });
+  }
+  const { name, picture, address, description, price, distribution, ownerToken } = req.body
+  console.log('req.body : ', req.body);
+  
+  User.findOne({ token: ownerToken }).then(userData => {
+    if (!userData) {
+      res.json({ result: false, error: 'Owner not found in users' });
+    } 
+    else {
+      let ownerId = userData._id;
+      console.log('ownerId : ', ownerId, 'userData._id : ', userData._id, );
+      const newAccommodation = new Accommodation({
+        name,
+        picture,
+        address,
+        description,
+        price,
+        distribution,
+        owner:ownerId,
+       });
+       console.log('New Accommodation en const : ', newAccommodation);
+    
+       newAccommodation.save()
+       .then(data => {
+         console.log('data du newAccommodation.save : ' , data);
+         res.json({result: true, newAccommodation: data});
+       })
+       .catch(error => {
+         console.error("Erreur lors de l'enregistrement de l'hébergement:", error);
+         res.status(500).json({result: false, error: "Une erreur est survenue lors de l'enregistrement de l'hébergement."});
+       });
+    }
+  });
+  
 });
 
 
@@ -81,7 +93,7 @@ router.get('/', function(req, res) {
 router.get('/:token', (req, res) => {
   User.findOne({ token: req.params.token }).then(userData => {
     if (!userData) {
-      res.json({ result: false, error: 'User not found in users' });
+      res.json({ result: false, error: 'Owner not found in users' });
     } else {
       Accommodation.find({ owner: userData._id })
       .then(accommodationData => {
