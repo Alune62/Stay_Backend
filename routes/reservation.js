@@ -6,6 +6,7 @@ const Reservation = require('../models/reservations');
 router.post('/', async (req, res) => {
   try {
     const newReservation = new Reservation({
+      name: req.body.name,
       arrival: req.body.arrival,
       departure: req.body.departure,
       price: req.body.price,

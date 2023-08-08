@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 
 const reservationSchema = mongoose.Schema({
+ name: String,
  arrival: Date,
  departure: Date,
  price: Number,
