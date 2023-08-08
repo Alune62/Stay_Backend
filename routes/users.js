@@ -86,7 +86,7 @@ router.get('/', async (req, res) => {
 router.get('/:token', (req, res) => {
   User.findOne({ token: req.params.token }).then(data => {
     if (data) {
-      res.json({ result: true, firstname: data.firstname, lastname: data.lastname, nickname: data.nickname, email: data.email });
+      res.json({ result: true, firstname: data.firstname, lastname: data.lastname, username: data.username, email: data.email });
     } else {
       res.json({ result: false, error: 'User not found' });
     }
