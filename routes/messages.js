@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Message = require('../models/messages');
 const User = require('../models/users');
-
+/* 
 router.post('/', (req, res) => {
     const newMessage = new Message({
         text: req.body.text,
@@ -55,6 +55,28 @@ router.delete('/:id', async (req, res) => {
       console.error(err.message);
       res.status(500).send('Erreur serveur');
     }
+  }); */
+
+  var express = require('express');
+  var router = express.Router();
+  
+  const Pusher = require('pusher');
+  const pusher = new Pusher({
+    appId: process.env.PUSHER_APPID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
+    useTLS: true,
   });
+  
+  
+  // Send message
+  router.post('/', (req, res) => {
+    pusher.trigger('chat', 'message', req.body);
+    console.log(req.body);
+  
+    res.json({ result: true });
+  });
+
 
 module.exports = router;

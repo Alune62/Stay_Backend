@@ -4,7 +4,17 @@ const bcrypt = require('bcrypt');
 const uid2 = require('uid2');
 const User = require('../models/users'); // Suppose que le modèle de données de l'utilisateur est défini dans le fichier 'user.js'
 const { checkBody } = require('../modules/checkBody'); // Suppose que la fonction checkBody est définie dans le fichier 'utils.js'
-
+const bodyParser = require('body-parser');
+const app = express(); // (2)
+app.use(bodyParser.json());
+const Pusher = require('pusher');
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: process.env.PUSHER_CLUSTER,
+  useTLS: true,
+});
 //"connectionMode", "role"
 // Route d'inscription
 router.post('/signup', (req, res) => {
@@ -73,8 +83,21 @@ router.get('/', async (req, res) => {
 });
 
 // Route de recherche d'utilisateur
-router.get('/', (req, res) => {
+/* router.get('/', (req, res) => {
   User.find({ username: req.params.user }).then(data => {
+    console.log(data);
+    if (data) {
+      res.json({ result: true, users: data.username });
+    } else {
+      res.json({ result: false, error: 'Utilisateur non trouvé' });
+    }
+  });
+}); */
+
+// Route de recherche d'utilisateur
+router.get('/search', (req, res) => {
+  User.find({ username: req.query.username }).then(data => {
+    console.log(data);
     if (data) {
       res.json({ result: true, users: data.username });
     } else {
@@ -99,5 +122,25 @@ router.delete("/:id", (req, res) => {
       }
     });
 });
+
+ // Join chat
+ router.put('/:username', (req, res) => {
+  const username = req.params.username;
+  pusher.trigger('chat', 'join', {
+    username: username,
+  });
+  
+  res.json({ result: true });
+});
+
+  // Leave chat
+  router.delete("/:username", (req, res) => {
+    const username = req.params.username; 
+    pusher.trigger('chat', 'leave', {
+      username: username,
+    });
+  
+    res.json({ result: true });
+  });
 
 module.exports = router;
