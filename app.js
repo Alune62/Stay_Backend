@@ -8,6 +8,8 @@ require('./models/connection');
 
 var app = express();
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
