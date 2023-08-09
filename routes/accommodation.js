@@ -35,11 +35,11 @@ router.post('/', (req, res) => {
   console.log('req.files', req.files);
 
   // Vérification champ par champ pour identifier les erreurs.
-  // if (!checkBody(req.body, ["name"])) {
-  //   // Si certains champs sont manquants ou vides, renvoyer une réponse d'erreur.
-  //   res.json({ result: false, error: "Backend, CheckBody error : Missing or empty name" });
-  //   return;
-  // }
+  if (!checkBody(req.body, ["name"])) {
+    // Si certains champs sont manquants ou vides, renvoyer une réponse d'erreur.
+    res.json({ result: false, error: "Backend, CheckBody error : Missing or empty name" });
+    return;
+  }
   // if (!checkBody(req.body, ["picture"])) {
   //   // Si certains champs sont manquants ou vides, renvoyer une réponse d'erreur.
   //   res.json({ result: false, error: "Backend, CheckBody error : Missing or empty picture" });
@@ -76,7 +76,7 @@ router.post('/', (req, res) => {
 
 
 
-  if (!checkBody(req.body, ["name", "picture", "address", "description", "price", "distribution", "ownerToken"])) {
+  if (!checkBody(req.body, ["name", "address", "description", "price", "distribution", "ownerToken"])) {
     // Si certains champs sont manquants ou vides, renvoyer une réponse d'erreur.
     res.json({ result: false, error: "Backend, CheckBody error : Missing or empty fields" });
     return;
