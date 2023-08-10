@@ -103,7 +103,8 @@ router.post('/', (req, res) => {
       if (picture==='photo') {
         picture = 'https://media.istockphoto.com/id/1439407042/fr/vectoriel/pas-de-symbole-vectoriel-dimage-ic%C3%B4ne-disponible-manquante-pas-despace-r%C3%A9serv%C3%A9-de.jpg?s=612x612&w=0&k=20&c=NDbjCizbrjUwsy2699aFm4XjoxNPzZvCD3DSLj3vNVQ='
       } else {
-        const photoPath = `./tmp/${uniqid()}.jpg`;
+        //const photoPath = `./tmp/${uniqid()}.jpg`;
+        const photoPath = `/tmp/${uniqid()}.jpg`;
         const resultMove = await req.files.photoFromFront.mv(photoPath);
 
         if (!resultMove) {
